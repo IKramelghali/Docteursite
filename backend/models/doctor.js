@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const doctorSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  phone: { type: String },
+  profile:{ type: String },
+  phone: { type: String,required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true }, // 🔒 should be hashed
   address: { type: String },
