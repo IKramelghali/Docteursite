@@ -1,14 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const {
-  createDoctor,
-  getDoctors,
-  getDoctorById,
-  updateDoctor,
-  deleteDoctor
-} = require("../controllers/doctorController"); 
+const {createDoctor,getDoctors,getDoctorById,updateDoctor,deleteDoctor} = require("../controllers/doctorController"); 
 
-// Routes 
+// Routes
+console.log("registerDoctor:", createDoctor);
+
 router.post("/", createDoctor);      
 router.get("/", getDoctors);          
 router.get("/:id", getDoctorById);    

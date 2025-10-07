@@ -34,16 +34,17 @@ const getSpecialtyById = async (req, res) => {
   }
 };
 
-//  Delete specialty
-const deleteSpecialty = async (req, res) => {
+//  get all specialties
+const getAllSpecialties = async (req, res) => {
   try {
-    const deleted = await Specialty.findByIdAndDelete(req.params.id);
-    if (!deleted) {
-      return res.status(404).json({ message: "Specialty not found" });
+    console.log("dkhel hna");
+const specialties = await Specialty.find().sort({ specialtyName: 1 }); 
+    if (!specialties.length) {
+      return res.status(404).json({ message: "No specialties found" });
     }
-    res.status(200).json({ message: "Specialty deleted successfully" });
+    res.json(specialties);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-module.exports={addSpecialty,getSpecialtyById,deleteSpecialty}
+module.exports={addSpecialty,getSpecialtyById,getAllSpecialties}

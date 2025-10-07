@@ -24,7 +24,7 @@ const getDoctors = async (req, res) => {
 };
 
 // Get doctor by ID
-getDoctorById = async (req, res) => {
+const getDoctorById = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.id)
       .populate("city", "cityName")
@@ -37,7 +37,7 @@ getDoctorById = async (req, res) => {
 };
 
 // Update doctor by ID
-updateDoctor = async (req, res) => {
+const updateDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -51,7 +51,7 @@ updateDoctor = async (req, res) => {
 };
 
 // Delete doctor
-deleteDoctor = async (req, res) => {
+const deleteDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.findByIdAndDelete(req.params.id);
     if (!doctor) return res.status(404).json({ message: "Doctor not found" });
@@ -59,4 +59,5 @@ deleteDoctor = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
+module.exports={createDoctor,getDoctors,getDoctorById,updateDoctor,deleteDoctor}

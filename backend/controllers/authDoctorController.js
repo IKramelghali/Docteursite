@@ -4,8 +4,6 @@ const Doctor = require("../models/doctor");
 
 //  REGISTER
 const registerDoctor = async (req, res) => {
-      console.log("Register endpoint hit!");
-
   try {
     const { name,profile, email, password, city, specialty, phone, address, description } = req.body;
 
@@ -48,9 +46,39 @@ const registerDoctor = async (req, res) => {
 };
 
 //  LOGIN
+const loginDoctor = async (req, res) => {
+      try {
+        const { email, password } = req.body
+        const doctorexst = await Doctor.findOne({ email })
 
- module.exports={ registerDoctor
 
- }
+        if (!doctorexst) {
+            return res.status(400).json({ message: "Invalid email or password" })
+        }
+
+        const ispassmatch = await bcrypt.compare(password, doctorexst.password)
+        if (!ispassmatch) {
+            return res.status(400).json({ message: "Invalid email or password" })
+        }
+
+        const token = jwt.sign(
+            { id: doctorexst._id }, process.env.JWT_SECRET_KEY,
+            { expiresIn: process.env.EXPIRE_JWT }
+        )
+        res.json({
+            message: "login successfully",
+            token,
+            Doctor: {
+                _id: doctorexst._id,
+                name: doctorexst.name,
+                email: doctorexst.email,
+            }
+        })
+    } catch (error) {
+        console.error("Error during login:", error)
+        res.status(500).json({ message: "Internal server error" })
+    }
+}
+module.exports={ registerDoctor,loginDoctor}
 
 
