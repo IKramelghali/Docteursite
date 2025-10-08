@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const {createDoctor,getDoctors,getDoctorById,updateDoctor,deleteDoctor} = require("../controllers/doctorController"); 
+const {getDoctors,getDoctorById,updateDoctor,deleteDoctor} = require("../controllers/doctorController"); 
+const upload = require("../middleware/multer");
 
 // Routes
-console.log("registerDoctor:", createDoctor);
 
-router.post("/", createDoctor);      
 router.get("/", getDoctors);          
 router.get("/:id", getDoctorById);    
-router.put("/:id", updateDoctor);     
+router.put("/:id", upload.single("profile"), updateDoctor);     
 router.delete("/:id", deleteDoctor);   
 
 module.exports = router;

@@ -2,10 +2,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Doctor = require("../models/doctor");
 
+
 //  REGISTER
 const registerDoctor = async (req, res) => {
   try {
-    const { name,profile, email, password, city, specialty, phone, address, description } = req.body;
+    const { name, email, password, city, specialty, phone, address, description } = req.body;
 
     if (!name || !email || !password || !city || !specialty || !phone  ) {
       return res.status(400).json({ message: "Required fields are missing" });
@@ -15,12 +16,10 @@ const registerDoctor = async (req, res) => {
     if (existingDoctor) {
       return res.status(400).json({ message: "Email already registered" });
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newDoctor = await Doctor.create({
       name,
-      profile,
       email,
       password: hashedPassword,
       city,
@@ -29,8 +28,6 @@ const registerDoctor = async (req, res) => {
       address,
       description,
     });
-
-
 
     res.status(201).json({
       message: "Doctor registered successfully",
@@ -50,7 +47,6 @@ const loginDoctor = async (req, res) => {
       try {
         const { email, password } = req.body
         const doctorexst = await Doctor.findOne({ email })
-
 
         if (!doctorexst) {
             return res.status(400).json({ message: "Invalid email or password" })
